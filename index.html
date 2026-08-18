@@ -1,8 +1,196 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0"><title>For Sneha (Sonu) ❤️</title><link rel="stylesheet" href="style.css"></head><body><div id="stars"></div>
-<section class="screen active" id="welcome"><div class="card"><p class="small">A little surprise for someone special...</p><h1>Sneha <span>(Sonu)</span></h1><p class="sub">From Golu ❤️</p><button onclick="go('gift')">Enter the Surprise ✨</button></div></section>
-<section class="screen" id="gift"><div class="card"><div class="gift" onclick="openGift()"><div class="lid"></div><div class="box"></div><div class="rv"></div><div class="rh"></div></div><h2 id="giftText">Tap the gift 🎁</h2></div></section>
-<section class="screen" id="wish"><div class="card"><div class="cake">🎂</div><p class="small">Today is all about you</p><h1>Happy Birthday<br><span>Sonu ❤️</span></h1><p class="sub">May your smile always stay this beautiful.</p><button onclick="showMessage()">A little message for you 💌</button></div></section>
-<section class="screen" id="message"><div class="card message"><p class="small">From Golu, with love</p><h2>Dear Sonu ❤️</h2><p id="typed"></p><button onclick="go('memories')">Our Memories 📸</button></div></section>
-<section class="screen" id="memories"><div class="card"><p class="small">Our little memories</p><h2>Moments that feel special ❤️</h2><div class="photos"><div class="photo"><img src="photo5.png"></div><div class="photo"><img src="photo4.jpg"></div><div class="photo"><img src="photo6.png"></div></div><button onclick="showFinal()">One last thing ❤️</button></div></section>
-<section class="screen" id="final"><div class="card final"><div class="hearts">❤️ ✨ ❤️ ✨ ❤️</div><h1>Happy Birthday,<br>My Special Sonu ❤️</h1><p>Keep smiling. Keep shining.<br>And always remember that you are very special. 🫶</p><div class="signature">— Golu</div><div class="big">♥</div></div></section>
-<div class="music"><label>🎵 Music <input id="audioFile" type="file" accept="audio/*" onchange="loadMusic(this)"></label><button id="musicBtn" onclick="toggleMusic()">▶</button></div><audio id="audio" loop></audio><script src="script.js"></script></body></html>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Happy Birthday Sneha ❤️</title>
+
+<style>
+*{box-sizing:border-box}
+
+body{
+  margin:0;
+  min-height:100vh;
+  font-family:Arial,sans-serif;
+  background:linear-gradient(135deg,#120018,#3b092f,#160021);
+  color:white;
+  text-align:center;
+  overflow-x:hidden;
+}
+
+.container{
+  max-width:700px;
+  margin:auto;
+  padding:25px 15px 50px;
+}
+
+h1{
+  font-size:42px;
+  margin-top:35px;
+  color:#ffd1e8;
+  text-shadow:0 0 20px #ff4f9a;
+}
+
+.message{
+  font-size:19px;
+  line-height:1.7;
+  margin:25px auto;
+  max-width:600px;
+}
+
+button{
+  border:0;
+  padding:14px 25px;
+  border-radius:30px;
+  background:#ff4f9a;
+  color:white;
+  font-size:17px;
+  margin:10px;
+  cursor:pointer;
+  box-shadow:0 0 20px #ff4f9a;
+}
+
+button:active{
+  transform:scale(.95);
+}
+
+.gallery{
+  display:flex;
+  flex-direction:column;
+  gap:25px;
+  margin-top:30px;
+}
+
+.photo{
+  width:100%;
+  border-radius:20px;
+  box-shadow:0 0 25px rgba(255,80,160,.45);
+  animation:zoom 6s ease-in-out infinite alternate;
+}
+
+@keyframes zoom{
+  from{transform:scale(1)}
+  to{transform:scale(1.035)}
+}
+
+.hidden{
+  display:none;
+}
+
+.final{
+  margin-top:35px;
+  font-size:24px;
+  color:#ffd6e9;
+}
+
+.heart{
+  position:fixed;
+  bottom:-30px;
+  font-size:22px;
+  animation:float 5s linear forwards;
+  pointer-events:none;
+}
+
+@keyframes float{
+  from{
+    transform:translateY(0);
+    opacity:1;
+  }
+  to{
+    transform:translateY(-110vh);
+    opacity:0;
+  }
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+<h1>🎂 Happy Birthday Sneha ❤️</h1>
+
+<p class="message">
+আজকের দিনটা তোমার জন্য একটু বেশি special।  
+তোমার হাসিটা সবসময় এমনই সুন্দর থাকুক।  
+জীবনের প্রতিটা নতুন দিনে তুমি আরও ভালো থাকো,
+আর তোমার সব স্বপ্ন পূরণ হোক। ❤️
+</p>
+
+<button onclick="startSurprise()">✨ Start Your Surprise ✨</button>
+
+<div id="surprise" class="hidden">
+
+  <div class="gallery">
+
+    <img src="photo4.jpg" class="photo">
+
+    <img src="photo5.png" class="photo">
+
+    <img src="photo3.png" class="photo">
+
+  </div>
+
+  <p class="final">
+    Happy Birthday, Sneha (Sonu) ❤️🎂<br><br>
+    — From Golu
+  </p>
+
+</div>
+
+</div>
+
+<script>
+function startSurprise(){
+
+  document.getElementById("surprise").classList.remove("hidden");
+
+  for(let i=0;i<30;i++){
+    setTimeout(createHeart,i*150);
+  }
+
+  // Soft cinematic beep/chime
+  try{
+    const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+    const notes = [523.25,659.25,783.99];
+
+    notes.forEach((freq,i)=>{
+      const osc = audioCtx.createOscillator();
+      const gain = audioCtx.createGain();
+
+      osc.frequency.value = freq;
+      osc.type = "sine";
+
+      gain.gain.setValueAtTime(0,audioCtx.currentTime+i*.35);
+      gain.gain.linearRampToValueAtTime(.12,audioCtx.currentTime+i*.35+.05);
+      gain.gain.exponentialRampToValueAtTime(.001,audioCtx.currentTime+i*.35+.8);
+
+      osc.connect(gain);
+      gain.connect(audioCtx.destination);
+
+      osc.start(audioCtx.currentTime+i*.35);
+      osc.stop(audioCtx.currentTime+i*.35+.8);
+    });
+  }catch(e){}
+}
+
+function createHeart(){
+
+  const h=document.createElement("div");
+
+  h.className="heart";
+  h.innerHTML=["❤️","💕","💗","💖","✨"][Math.floor(Math.random()*5)];
+
+  h.style.left=Math.random()*100+"vw";
+  h.style.animationDuration=(3+Math.random()*3)+"s";
+
+  document.body.appendChild(h);
+
+  setTimeout(()=>{
+    h.remove();
+  },6000);
+}
+</script>
+
+</body>
+</html>
